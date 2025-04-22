@@ -1,0 +1,1 @@
+from mavis_mujoco_gym.envs.mavis_base.mavis_base_env import MAVISBaseEnv

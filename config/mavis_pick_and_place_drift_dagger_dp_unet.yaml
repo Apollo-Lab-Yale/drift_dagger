@@ -1,0 +1,77 @@
+random_seed: 42
+env_name: mavis_pick_and_place
+
+network:
+  type: "dp_unet"
+  pred_horizon: 16
+  obs_horizon: 2
+  action_horizon: 8
+  num_training_diffusion_iters: 100
+  num_inference_diffusion_iters: 100
+  diffusion_step_embed_dim: 512 #128
+  down_dims: [128, 256, 512] # [512, 1024, 2048]  # From DP UNet image workspace
+  vision_feature_dim: 512
+  lora_rank: 64
+  lora_dropout_p: 0.1
+  lora_scale: 1.0
+  #merge_lora_after_each_epoch: False
+  apply_lora_to_visual_encoder: False
+  inject_low_rank_adapter_at_init: True
+  completely_freeze_main_params: True
+
+expert_policy_path: "expert_policy/mavis_pick_and_place_expert_policy.ckpt"
+expert_overtake_cos_sim_threshold: 0.9998767977172863
+
+env_id: "PickAndPlace-v0"
+env_configs:
+  render_fps: 50
+  robot_noise_ratio: 0.01,
+  obs_space_type: "lookat_euler_space"
+  act_space_type: "lookat_euler_space"
+  action_normalization: True
+  observation_normalization: observation_normalization
+  render_mode: "rgb_array"
+  img_width: 640
+  img_height: 480
+  enable_rgb: True
+  use_cheating_observation: False
+
+optimizer:
+  learning_rate: 1e-4
+  weight_decay: 1e-6
+
+state_dim: 10
+action_dim: 10
+
+downsampled_img_width: 256
+downsampled_img_height: 192
+
+dataloader:
+  batch_size: 64
+  shuffle: True
+  num_workers: 16
+
+max_num_steps_per_rollout: 500
+
+# The online collected rollout data will be removed after each trial
+use_offline_bootstrapping_dataset: True
+offline_bootstrapping_dataset_path: "demonstrations/offline_bootstrapping_dataset/mavis_pick_and_place"
+
+use_pretrained_policy: True
+pretrained_policy_path: "ckpts/pretrained_policy/mavis_pick_and_place.ckpt"
+
+num_bootstrapping_rollouts: 100
+num_bootstrapping_epochs: 100
+num_iter: 0
+num_rollout_per_iter: 1
+num_epoch_per_iter: 1
+lr_scheduler: cosine
+lr_warmup_steps: 1000
+
+use_eval: True
+eval_and_save_every_n_iters: 10
+num_eval_rollouts: 5
+
+use_normalization: True
+
+training_session_name: ${env_name}_drift_dagger_${network.type}_${now:%Y.%m.%d-%H.%M.%S}

@@ -1,0 +1,125 @@
+<mujoco model="viewpoint_arm">
+  <compiler angle="radian" autolimits="true" meshdir="assets"/>
+
+  <option integrator="implicitfast"/>
+
+  <asset>
+    <material name="white_viewpoint" rgba="1 1 1 1"/>
+    <material name="gray_viewpoint" rgba="0.753 0.753 0.753 1"/>
+    <material name="black_viewpoint" rgba="0.149 0.149 0.149 1"/>
+
+    <mesh file="linear_motor_rail_viewpoint.stl"/>
+    <mesh file="linear_motor_platform_viewpoint.stl"/>
+    <mesh file="link_base_viewpoint.stl"/>
+    <mesh file="link1_viewpoint.stl"/>
+    <mesh file="link2_viewpoint.stl"/>
+    <mesh file="link3_viewpoint.stl"/>
+    <mesh file="link4_viewpoint.stl"/>
+    <mesh file="link5_viewpoint.stl"/>
+    <mesh file="link6_viewpoint.stl"/>
+    <mesh file="link7_viewpoint.stl"/>
+    <mesh file="end_tool_viewpoint.stl"/>
+    <mesh file="d435_with_cam_stand.stl"/>
+  </asset>
+
+  <default>
+    <default class="xarm7_viewpoint">
+      <geom type="mesh" material="white_viewpoint"/>
+      <joint axis="0 0 1" range="-6.28319 6.28319" frictionloss="1"/>
+      <general biastype="affine" ctrlrange="-6.28319 6.28319"/>
+      <default class="size1_viewpoint">
+        <joint damping="10"/>
+        <general gainprm="1500" biasprm="0 -1500 -150" forcerange="-50 50"/>
+      </default>
+      <default class="size2_viewpoint">
+        <joint damping="5"/>
+        <general gainprm="1000" biasprm="0 -1000 -100" forcerange="-30 30"/>
+      </default>
+      <default class="size3_viewpoint">
+        <joint damping="2"/>
+        <general gainprm="800" biasprm="0 -800 -80" forcerange="-20 20"/>
+      </default>
+      <site size="0.001" rgba="1 0 0 1" group="4"/>
+    </default>
+  </default>
+
+  <worldbody>
+    <body name="linear_motor_rail_viewpoint" pos="0.9 0 0.0422">
+      <inertial pos="0 0 0" mass="10" diaginertia="1 1 1"/>
+      <geom material="black_viewpoint" type="mesh" mesh="linear_motor_rail_viewpoint"/>
+      <body name="linear_motor_platform_viewpoint" pos="-0.038245 0 0.064988">
+        <inertial pos="0 0 0" mass="1" diaginertia="1 1 1"/>
+        <joint name="linear_track_joint_viewpoint" type="slide" axis="0 1 0" range="-0.37 0.37" stiffness="50" damping="50" armature="0.1"/>
+        <geom material="black_viewpoint" type="mesh" mesh="linear_motor_platform_viewpoint"/>
+        <body name="link_base_viewpoint" pos="0 0 0" childclass="xarm7_viewpoint">
+          <inertial pos="-0.021131 -0.0016302 0.056488" quat="0.696843 0.20176 0.10388 0.680376" mass="0.88556"
+            diaginertia="0.00382023 0.00335282 0.00167725"/>
+          <geom mesh="link_base_viewpoint"/>
+          <body name="link1_viewpoint" pos="0 0 0.267">
+            <inertial pos="-0.0002 0.02905 -0.01233" quat="0.978953 -0.202769 -0.00441617 -0.0227264" mass="2.382"
+              diaginertia="0.00569127 0.00533384 0.00293865"/>
+            <joint name="joint1_viewpoint" class="size1_viewpoint"/>
+            <geom mesh="link1_viewpoint"/>
+            <body name="link2_viewpoint" quat="1 -1 0 0">
+              <inertial pos="0.00022 -0.12856 0.01735" quat="0.50198 0.86483 -0.00778841 0.00483285" mass="1.869"
+                diaginertia="0.00959898 0.00937717 0.00201315"/>
+              <joint name="joint2_viewpoint" range="-2.059 2.0944" class="size1_viewpoint"/>
+              <geom mesh="link2_viewpoint"/>
+              <body name="link3_viewpoint" pos="0 -0.293 0" quat="1 1 0 0">
+                <inertial pos="0.0466 -0.02463 -0.00768" quat="0.913819 0.289775 0.281481 -0.0416455" mass="1.6383"
+                  diaginertia="0.00351721 0.00294089 0.00195868"/>
+                <joint name="joint3_viewpoint" class="size2_viewpoint"/>
+                <geom mesh="link3_viewpoint"/>
+                <body name="link4_viewpoint" pos="0.0525 0 0" quat="1 1 0 0">
+                  <inertial pos="0.07047 -0.11575 0.012" quat="0.422108 0.852026 -0.126025 0.282832" mass="1.7269"
+                    diaginertia="0.00657137 0.00647948 0.00186763"/>
+                  <joint name="joint4_viewpoint" range="-0.19198 3.927" class="size2_viewpoint"/>
+                  <geom mesh="link4_viewpoint"/>
+                  <body name="link5_viewpoint" pos="0.0775 -0.3425 0" quat="1 1 0 0">
+                    <inertial pos="-0.00032 0.01604 -0.026" quat="0.999311 -0.0304457 0.000577067 0.0212082" mass="1.3203"
+                      diaginertia="0.00534729 0.00499076 0.0013489"/>
+                    <joint name="joint5_viewpoint" class="size2_viewpoint"/>
+                    <geom mesh="link5_viewpoint"/>
+                    <body name="link6_viewpoint" quat="1 1 0 0">
+                      <inertial pos="0.06469 0.03278 0.02141" quat="-0.217672 0.772419 0.16258 0.574069" mass="1.325"
+                        diaginertia="0.00245421 0.00221646 0.00107273"/>
+                      <joint name="joint6_viewpoint" range="-1.69297 3.14159" class="size3_viewpoint"/>
+                      <geom mesh="link6_viewpoint"/>
+                      <body name="link7_viewpoint" pos="0.076 0.097 0" quat="1 -1 0 0">
+                        <inertial pos="0 -0.00677 -0.01098" quat="0.487612 0.512088 -0.512088 0.487612" mass="0.17"
+                          diaginertia="0.000132176 9.3e-05 5.85236e-05"/>
+                        <joint name="joint7_viewpoint" class="size3_viewpoint"/>
+                        <geom material="gray_viewpoint" mesh="end_tool_viewpoint"/>
+                        <site name="attachment_site"/>
+                        <body name="camera_body" pos="0 0 0" quat="1 0 0 0">
+                          <geom type="mesh" mesh="d435_with_cam_stand" material="gray_viewpoint" />
+                          <camera name="realsense_camera" pos="0.07 0 0.05" quat="0 0.7071 0.7071 0" fovy="57"/>
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <contact>
+    <exclude body1="linear_motor_rail_viewpoint" body2="linear_motor_platform_viewpoint"/>
+  </contact>
+
+  <actuator>
+    <general name="linear_track_actuator_viewpoint" joint="linear_track_joint_viewpoint" ctrlrange="-0.37 0.37" forcerange="-50 50" gear="50"/>
+    <general name="act1_viewpoint" joint="joint1_viewpoint" class="size1_viewpoint"/>
+    <general name="act2_viewpoint" joint="joint2_viewpoint" class="size1_viewpoint" ctrlrange="-2.059 2.0944"/>
+    <general name="act3_viewpoint" joint="joint3_viewpoint" class="size2_viewpoint"/>
+    <general name="act4_viewpoint" joint="joint4_viewpoint" class="size2_viewpoint" ctrlrange="-0.19198 3.927"/>
+    <general name="act5_viewpoint" joint="joint5_viewpoint" class="size2_viewpoint"/>
+    <general name="act6_viewpoint" joint="joint6_viewpoint" class="size3_viewpoint" ctrlrange="-1.69297 3.14159"/>
+    <general name="act7_viewpoint" joint="joint7_viewpoint" class="size3_viewpoint"/>
+  </actuator>
+
+</mujoco>

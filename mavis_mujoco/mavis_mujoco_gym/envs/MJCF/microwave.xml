@@ -1,0 +1,51 @@
+<mujoco model="xarm7 scene">
+
+    <size njmax='1000' nconmax='1000'/>
+
+    <include file="basic_scene_kit.xml"/>
+    <include file="xarm7_with_gripper_kit.xml"/>
+    <include file="xarm7_with_cam_kit.xml"/>
+
+    <include file="item_assets/counters_asset.xml"/>
+    <include file="item_assets/backwall_asset.xml"/>
+    <include file="item_assets/microwave_asset.xml"/>
+
+    <visual>
+    <global offwidth="2560" offheight="1920" />
+    <quality shadowsize="4096" offsamples="8" />
+    <map force="0.1" fogend="5" />
+    </visual>
+
+    <compiler inertiafromgeom='auto' inertiagrouprange='3 5' angle="radian" texturedir="assets" meshdir="assets"/>
+    <worldbody>
+
+        <body name='desk' pos='-0.1 0.75 0'>
+            <body name="counters1" pos="0 0 0" >
+                <include file="item_assets/counters_chain.xml"/>
+            </body>
+            <body name="backwall" pos="0 0 0" >
+                <include file="item_assets/backwall_chain.xml"/>
+            </body>
+            <body name="microwave" pos="-0.45 0 1.6" euler="0 0 0"> <!--pos="-0.5 -0.025 1.6"-->
+                <include file="item_assets/microwave_chain.xml"/>
+            </body>
+        </body>
+
+    </worldbody>
+    
+
+    <keyframe>
+        <key name="initial_state" qpos="0.33152924  0.23062248  0.48318042  0.11224681  1.06708195 -0.05989958  0.5901158   0.41153778         
+                                        0 0 0 0 0 0
+                                        0.17579529  2.48999602 -1.40089744  0.77064232  0.62239462  0.14878218  1.33189613  0.91311897
+                                        0"/>
+    </keyframe>
+
+    <!-- <keyframe>
+        <key name="initial_state" qpos="-0.150117 0.279322 0.331934 -0.323546 1.049951 0.277018 0.749036 -0.150038
+                                        0 0 0 0 0 0
+                                        -0.327121 2.972188 -1.330390 0.107898 0.680434 -0.124592 1.470327 0.401615
+                                        0"/>
+    </keyframe> -->
+
+</mujoco> 
